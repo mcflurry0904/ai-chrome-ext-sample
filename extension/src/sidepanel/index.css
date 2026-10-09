@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-yard: #1e3a2f;
+  --color-paper: #e4ebe4;
+  --color-ink: #1a211c;
+  --color-stamp: #9d2c2c;
+  --color-rule: #b7c4b8;
+  --color-sheet: #f4f7f2;
+  --color-moss: #3e5c4a;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+}
+
+button:focus-visible,
+textarea:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline: 2px solid #1e3a2f;
+  outline-offset: 2px;
+}
+
+@keyframes blink {
+  50% { opacity: 0.35; }
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blink { animation: none; }
+}

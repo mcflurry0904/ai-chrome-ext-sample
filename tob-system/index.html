@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>某某车辆实时管理系统</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">车</span>
+          <div>
+            <h1>某某车辆实时管理系统</h1>
+            <p>某某物流集团 · 车辆调度中心</p>
+          </div>
+        </div>
+        <div class="top-meta">
+          <span>在册 <strong id="total-count">0</strong> 辆</span>
+          <span id="clock"></span>
+          <span>值班员：未登录</span>
+        </div>
+      </header>
+
+      <div class="body">
+        <nav class="sider" aria-label="系统菜单">
+          <button type="button" class="menu is-active" data-menu="vehicles">车辆档案</button>
+          <button type="button" class="menu" data-menu="board">调度看板</button>
+          <button type="button" class="menu" data-menu="drivers">司机名册</button>
+          <button type="button" class="menu" data-menu="repair">维修工单</button>
+          <button type="button" class="menu" data-menu="settings">系统设置</button>
+        </nav>
+
+        <main class="main">
+          <p class="crumb">首页 / 车辆档案</p>
+          <p class="notice">
+            数据保存在这台电脑的浏览器里。昨天的日期是
+            <strong id="yesterday-label"></strong>。需要重来时，点「恢复初始数据」。
+          </p>
+
+          <section class="panel" aria-label="查询条件">
+            <h2>查询条件</h2>
+            <div class="filters">
+              <label for="filter-date-from">记录日期</label>
+              <input id="filter-date-from" type="date" autocomplete="off" />
+              <span>至</span>
+              <input id="filter-date-to" type="date" autocomplete="off" />
+              <label for="filter-plate">车牌</label>
+              <input id="filter-plate" type="text" maxlength="8" autocomplete="off" placeholder="例如京A10293" />
+              <label for="filter-status">状态</label>
+              <select id="filter-status">
+                <option value="全部">全部</option>
+                <option value="在途">在途</option>
+                <option value="空闲">空闲</option>
+                <option value="维修中">维修中</option>
+              </select>
+            </div>
+            <div class="toolbar">
+              <button id="btn-search" type="button" class="btn btn-primary">查询</button>
+              <button id="btn-reset" type="button" class="btn">重置</button>
+              <button id="btn-add" type="button" class="btn btn-primary">新增车辆</button>
+              <button id="btn-delete-filtered" type="button" class="btn btn-danger">删除当前筛选结果</button>
+              <button id="btn-restore" type="button" class="btn">恢复初始数据</button>
+            </div>
+          </section>
+
+          <section class="panel" aria-label="车辆列表">
+            <div class="panel-head">
+              <h2>车辆列表</h2>
+              <p id="summary"></p>
+            </div>
+            <div class="table-wrap">
+              <table id="vehicle-table">
+                <thead>
+                  <tr>
+                    <th>序号</th>
+                    <th>车牌号</th>
+                    <th>车辆类型</th>
+                    <th>司机</th>
+                    <th>状态</th>
+                    <th>记录日期</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="vehicle-body"></tbody>
+              </table>
+            </div>
+            <p id="status-bar" role="status">就绪</p>
+          </section>
+        </main>
+      </div>
+
+      <footer class="footer">某某物流集团车辆调度中心 · 内部系统 V1.0 · 禁止外传</footer>
+    </div>
+
+    <div id="form-mask" class="mask" hidden>
+      <form id="vehicle-form" class="dialog">
+        <header>
+          <h2 id="modal-title">新增车辆</h2>
+        </header>
+        <div class="dialog-body">
+          <input id="form-id" type="hidden" />
+          <label for="form-plate">车牌号</label>
+          <input id="form-plate" type="text" maxlength="8" autocomplete="off" placeholder="例如京A10293" />
+          <label for="form-type">车辆类型</label>
+          <select id="form-type">
+            <option value="货车">货车</option>
+            <option value="客车">客车</option>
+            <option value="轿车">轿车</option>
+          </select>
+          <label for="form-driver">司机</label>
+          <input id="form-driver" type="text" maxlength="20" autocomplete="off" />
+          <label for="form-status">状态</label>
+          <select id="form-status">
+            <option value="在途">在途</option>
+            <option value="空闲">空闲</option>
+            <option value="维修中">维修中</option>
+          </select>
+          <label for="form-date">记录日期</label>
+          <input id="form-date" type="date" autocomplete="off" />
+          <p id="form-error" class="form-error"></p>
+        </div>
+        <footer>
+          <button id="btn-save" type="submit" class="btn btn-primary">保存</button>
+          <button id="btn-cancel" type="button" class="btn">取消</button>
+        </footer>
+      </form>
+    </div>
+
+    <div id="confirm-mask" class="mask" hidden>
+      <div class="dialog confirm-dialog" role="alertdialog" aria-labelledby="confirm-text">
+        <header>
+          <h2>请确认</h2>
+        </header>
+        <div class="dialog-body">
+          <p id="confirm-text"></p>
+        </div>
+        <footer>
+          <button id="btn-confirm-ok" type="button" class="btn btn-danger">确定</button>
+          <button id="btn-confirm-cancel" type="button" class="btn">取消</button>
+        </footer>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

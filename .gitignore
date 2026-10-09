@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.local
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+extension/dist/
+agent/.venv/
+chrome-profile/
